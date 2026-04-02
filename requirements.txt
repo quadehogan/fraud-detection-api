@@ -7,3 +7,4 @@ scikit-learn==1.7.2
 joblib==1.5.3
 scipy==1.15.3
 psycopg2-binary==2.9.10
+supabase==2.15.1
