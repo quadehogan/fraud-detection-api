@@ -7,9 +7,11 @@ Run once to produce model.pkl:
 The engineer_features() function and FEATURE_COLS / NUM_COLS / CAT_COLS
 are imported by main.py to ensure training and inference use identical logic.
 """
+import os
 import sys
-import sqlite3
 import warnings
+
+import psycopg2
 from pathlib import Path
 
 import numpy as np
@@ -85,8 +87,8 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
 
 
 # ── Data loading ──────────────────────────────────────────────────────────────
-def load_training_data(db_path: str) -> pd.DataFrame:
-    conn = sqlite3.connect(db_path)
+def load_training_data(db_url: str) -> pd.DataFrame:
+    conn = psycopg2.connect(db_url)
     query = """
     SELECT
         o.order_id,
@@ -195,5 +197,5 @@ def train(db_path: str) -> Pipeline:
 
 
 if __name__ == "__main__":
-    db = sys.argv[1] if len(sys.argv) > 1 else "../shop.db"
-    train(db)
+    db_url = sys.argv[1] if len(sys.argv) > 1 else os.environ["DATABASE_URL"]
+    train(db_url)
