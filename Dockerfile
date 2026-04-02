@@ -2,6 +2,8 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
+EXPOSE 8000
+
 # Install dependencies first (layer cache friendly)
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
